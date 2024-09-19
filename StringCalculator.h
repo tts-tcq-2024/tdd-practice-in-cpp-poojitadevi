@@ -1,8 +1,11 @@
-#ifndef STRING_CALCULATOR_H
-#define STRING_CALCULATOR_H
+#ifndef STRINGCALCULATOR_H
+#define STRINGCALCULATOR_H
 
 #include <string>
 
-add(const std::string& name);
+class StringCalculator {
+public:
+    int add(const std::string& input);
+};
 
-#endif // STRING_CALCULATOR_H
+#endif // STRINGCALCULATOR_H
