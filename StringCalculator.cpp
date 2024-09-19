@@ -4,17 +4,18 @@
 #include <vector>
 #include <stdexcept>
 #include <numeric>
+#include <algorithm>  // For std::copy_if
 
 // Helper function to split the input string and return a list of numbers
 std::vector<int> StringCalculator::splitAndConvert(const std::string& input) {
     std::vector<int> numbers;
     std::stringstream ss(input);
     std::string token;
-    
+
     while (std::getline(ss, token, ',')) {
         numbers.push_back(std::stoi(token));
     }
-    
+
     return numbers;
 }
 
@@ -22,12 +23,12 @@ std::vector<int> StringCalculator::splitAndConvert(const std::string& input) {
 void StringCalculator::validateNegatives(const std::vector<int>& numbers) {
     std::vector<int> negatives;
 
-    for (int number : numbers) {
-        if (number < 0) {
-            negatives.push_back(number);
-        }
-    }
+    // Use std::copy_if to collect all negative numbers
+    std::copy_if(numbers.begin(), numbers.end(), std::back_inserter(negatives), [](int number) {
+        return number < 0;
+    });
 
+    // Throw exception if there are negative numbers
     if (!negatives.empty()) {
         std::string errorMessage = "Negatives not allowed: ";
         for (int n : negatives) {
