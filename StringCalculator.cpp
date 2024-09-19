@@ -2,6 +2,6 @@
 
 int add(const std::string& input)
 {
-  if (name.empty()) 
+  if (input.empty()) 
     return 0;
 }
