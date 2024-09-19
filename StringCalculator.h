@@ -3,6 +3,6 @@
 
 #include <string>
 
-std::int generateSoundex(const std::string& name);
+std::int add(const std::string& name);
 
 #endif // STRING_CALCULATOR_H
