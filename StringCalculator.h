@@ -11,6 +11,7 @@ public:
 private:
     std::vector<int> splitAndConvert(const std::string& input);
     void validateNegatives(const std::vector<int>& numbers);
+    int sumNumbers(const std::vector<int>& numbers);
 };
 
 #endif // STRINGCALCULATOR_H
