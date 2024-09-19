@@ -51,12 +51,18 @@ void StringCalculator::validateNegatives(const std::vector<int>& numbers) {
     }
 }
 
-// Helper function to calculate the sum of numbers
+// Helper function to calculate the sum of numbers, ignoring numbers greater than 1000
 int StringCalculator::sumNumbers(const std::vector<int>& numbers) {
-    return std::accumulate(numbers.begin(), numbers.end(), 0);
+    int sum = 0;
+    for (int number : numbers) {
+        if (number <= 1000) {
+            sum += number;
+        }
+    }
+    return sum;
 }
 
-// Main add function with support for custom delimiters
+// Main add function with support for custom delimiters and ignoring numbers > 1000
 int StringCalculator::add(const std::string& input) {
     std::string modifiedInput = input;
     char delimiter = extractDelimiter(modifiedInput);  // Extract and set custom delimiter
