@@ -5,15 +5,24 @@
 #include <stdexcept>
 #include <numeric>
 #include <algorithm>  // For std::copy_if
+#include <regex>      // For replacing newlines
 
 // Helper function to split the input string and return a list of numbers
 std::vector<int> StringCalculator::splitAndConvert(const std::string& input) {
+    std::string modifiedInput = input;
+
+    // Replace all newline characters with commas to handle both delimiters
+    std::replace(modifiedInput.begin(), modifiedInput.end(), '\n', ',');
+
     std::vector<int> numbers;
-    std::stringstream ss(input);
+    std::stringstream ss(modifiedInput);
     std::string token;
 
+    // Split the string by commas and convert each token to an integer
     while (std::getline(ss, token, ',')) {
-        numbers.push_back(std::stoi(token));
+        if (!token.empty()) {  // Ensure no empty tokens are processed
+            numbers.push_back(std::stoi(token));
+        }
     }
 
     return numbers;
