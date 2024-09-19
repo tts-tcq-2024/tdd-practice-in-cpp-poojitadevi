@@ -4,34 +4,51 @@
 #include <vector>
 #include <stdexcept>
 
-int StringCalculator::add(const std::string& input) {
-    if (input.empty()) {
-        return 0;  // Return 0 for empty input
-    }
-
+// Helper function to split the input string and return a list of numbers
+std::vector<int> StringCalculator::splitAndConvert(const std::string& input) {
+    std::vector<int> numbers;
     std::stringstream ss(input);
     std::string token;
-    int sum = 0;
+    
+    // Split the string by commas and convert each token to an integer
+    while (std::getline(ss, token, ',')) {
+        numbers.push_back(std::stoi(token));
+    }
+    
+    return numbers;
+}
+
+// Helper function to validate for negative numbers and throw exceptions if found
+void StringCalculator::validateNegatives(const std::vector<int>& numbers) {
     std::vector<int> negatives;
 
-    // Split the string by commas and handle numbers
-    while (std::getline(ss, token, ',')) {
-        int number = std::stoi(token);  // Convert the token to an integer
-
+    for (int number : numbers) {
         if (number < 0) {
-            negatives.push_back(number);  // Track negative numbers
+            negatives.push_back(number);
         }
-
-        sum += number;  // Add the number to the sum
     }
 
-    // If any negative numbers were found, throw an exception
     if (!negatives.empty()) {
         std::string errorMessage = "Negatives not allowed: ";
         for (int n : negatives) {
             errorMessage += std::to_string(n) + " ";
         }
         throw std::runtime_error(errorMessage);
+    }
+}
+
+// Main add function with reduced CCN
+int StringCalculator::add(const std::string& input) {
+    if (input.empty()) {
+        return 0;
+    }
+
+    std::vector<int> numbers = splitAndConvert(input);  // Get numbers from input
+    validateNegatives(numbers);  // Check for negatives and throw exception if any
+
+    int sum = 0;
+    for (int number : numbers) {
+        sum += number;
     }
 
     return sum;
