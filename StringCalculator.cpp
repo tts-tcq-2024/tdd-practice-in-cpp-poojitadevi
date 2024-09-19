@@ -22,12 +22,17 @@ std::vector<int> StringCalculator::splitAndConvert(const std::string& input, cha
 }
 
 // Helper function to extract the delimiter from the input string
-char StringCalculator::extractDelimiter(std::string& input) {
-    char delimiter = ',';  // Default delimiter
+std::string StringCalculator::extractDelimiter(std::string& input) {
+    std::string delimiter = ",";  // Default delimiter
     if (input.substr(0, 2) == "//") {
         size_t newlinePos = input.find('\n');
         if (newlinePos != std::string::npos) {
-            delimiter = input[2];
+            std::string delimiterSection = input.substr(2, newlinePos - 2);
+            if (delimiterSection.front() == '[' && delimiterSection.back() == ']') {
+                delimiter = delimiterSection.substr(1, delimiterSection.size() - 2);
+            } else {
+                delimiter = delimiterSection;
+            }
             input = input.substr(newlinePos + 1);  // Remove delimiter line from input
         }
     }
@@ -65,16 +70,16 @@ int StringCalculator::sumNumbers(const std::vector<int>& numbers) {
 // Main add function with support for custom delimiters and ignoring numbers > 1000
 int StringCalculator::add(const std::string& input) {
     std::string modifiedInput = input;
-    char delimiter = extractDelimiter(modifiedInput);  // Extract and set custom delimiter
+    std::string delimiter = extractDelimiter(modifiedInput);  // Extract and set custom delimiter
 
     if (modifiedInput.empty()) {
         return 0;
     }
 
     // Replace new lines with the custom delimiter
-    std::replace(modifiedInput.begin(), modifiedInput.end(), '\n', delimiter);
+    std::replace(modifiedInput.begin(), modifiedInput.end(), '\n', delimiter[0]);
 
-    std::vector<int> numbers = splitAndConvert(modifiedInput, delimiter);  // Parse input
+    std::vector<int> numbers = splitAndConvert(modifiedInput, delimiter[0]);  // Parse input
     validateNegatives(numbers);  // Check for negative numbers
     return sumNumbers(numbers);  // Calculate and return the sum
 }
