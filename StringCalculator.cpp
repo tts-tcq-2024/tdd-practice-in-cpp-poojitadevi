@@ -21,21 +21,29 @@ std::vector<int> StringCalculator::splitAndConvert(const std::string& input, cha
     return numbers;
 }
 
+// Helper function to get the delimiter from the delimiter specification
+std::string StringCalculator::getDelimiterFromSpec(const std::string& spec) {
+    if (spec.front() == '[' && spec.back() == ']') {
+        return spec.substr(1, spec.size() - 2); // Extract delimiter from [delimiter]
+    }
+    return spec; // Return the delimiter as is
+}
+
 // Helper function to extract the delimiter from the input string
 std::string StringCalculator::extractDelimiter(std::string& input) {
-    std::string delimiter = ",";  // Default delimiter
-    if (input.substr(0, 2) == "//") {
-        size_t newlinePos = input.find('\n');
-        if (newlinePos != std::string::npos) {
-            std::string delimiterSection = input.substr(2, newlinePos - 2);
-            if (delimiterSection.front() == '[' && delimiterSection.back() == ']') {
-                delimiter = delimiterSection.substr(1, delimiterSection.size() - 2);
-            } else {
-                delimiter = delimiterSection;
-            }
-            input = input.substr(newlinePos + 1);  // Remove delimiter line from input
-        }
+    if (input.substr(0, 2) != "//") {
+        return ","; // Default delimiter
     }
+
+    size_t newlinePos = input.find('\n');
+    if (newlinePos == std::string::npos) {
+        return ","; // Default delimiter if no newline
+    }
+
+    std::string delimiterSpec = input.substr(2, newlinePos - 2);
+    std::string delimiter = getDelimiterFromSpec(delimiterSpec);
+
+    input = input.substr(newlinePos + 1); // Remove the delimiter specification line from input
     return delimiter;
 }
 
@@ -43,43 +51,4 @@ std::string StringCalculator::extractDelimiter(std::string& input) {
 void StringCalculator::validateNegatives(const std::vector<int>& numbers) {
     std::vector<int> negatives;
 
-    std::copy_if(numbers.begin(), numbers.end(), std::back_inserter(negatives), [](int number) {
-        return number < 0;
-    });
-
-    if (!negatives.empty()) {
-        std::string errorMessage = "Negatives not allowed: ";
-        for (int n : negatives) {
-            errorMessage += std::to_string(n) + " ";
-        }
-        throw std::runtime_error(errorMessage);
-    }
-}
-
-// Helper function to calculate the sum of numbers, ignoring numbers greater than 1000
-int StringCalculator::sumNumbers(const std::vector<int>& numbers) {
-    int sum = 0;
-    for (int number : numbers) {
-        if (number <= 1000) {
-            sum += number;
-        }
-    }
-    return sum;
-}
-
-// Main add function with support for custom delimiters and ignoring numbers > 1000
-int StringCalculator::add(const std::string& input) {
-    std::string modifiedInput = input;
-    std::string delimiter = extractDelimiter(modifiedInput);  // Extract and set custom delimiter
-
-    if (modifiedInput.empty()) {
-        return 0;
-    }
-
-    // Replace new lines with the custom delimiter
-    std::replace(modifiedInput.begin(), modifiedInput.end(), '\n', delimiter[0]);
-
-    std::vector<int> numbers = splitAndConvert(modifiedInput, delimiter[0]);  // Parse input
-    validateNegatives(numbers);  // Check for negative numbers
-    return sumNumbers(numbers);  // Calculate and return the sum
-}
+    std::copy_if(numbers.begin(),
