@@ -1,5 +1,6 @@
-#include <gtest/gtest.h>
 #include "StringCalculator.h"
+#include <gtest/gtest.h>
+#include <stdexcept>
 
 TEST(StringCalculatorAddTests, ExpectZeroForEmptyInput) {
     int expectedresult = 0;
