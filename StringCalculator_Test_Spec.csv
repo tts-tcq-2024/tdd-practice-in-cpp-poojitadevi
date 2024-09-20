@@ -1,6 +1,8 @@
 Test Specification Document for StringCalculator,,,,
 ,,,,
-"Overview:The StringCalculator class will provide an Add method that takes a string input and returns the sum of the numbers contained in that string. The input numbers can be separated by commas, newlines, or custom delimiters. Special cases such as empty strings, negative numbers, large numbers, and varied delimiters will also be handled.",,,,
+"Overview:The StringCalculator class will provide an Add method that takes a string input and returns the sum of the numbers contained in that string. 
+ The input numbers can be separated by commas, newlines, or custom delimiters. Special cases such as empty strings, negative numbers, large numbers, 
+ and varied delimiters will also be handled.",,,,
 Scope of Testing: ,,,,
 "Basic cases: Empty strings, single numbers, two numbers.",,,,
 "Edge cases: Handling large numbers, custom delimiters, negative numbers, and unknown number of inputs.",,,,
