@@ -20,4 +20,4 @@ TC-010,Multiple Negative Numbers,"If there are multiple negatives, show all of t
 TC-011,Numbers Greater Than 1000,Numbers greater than 1000 should be ignored in the sum.,"""2,1001""",2
 TC-012,Mixed Delimiters,Ensure that different delimiters work alongside numbers greater than 1000.,"""//[;;]\n2;;1001;;1000""",1002
 TC-013,Custom Delimiter,with No Numbers	A string specifying a custom delimiter but containing no numbers should return 0.,"""//;\n""",0
-TC-014,Only Delimiter with Newline	A string with a delimiter followed by a newline and no numbers should return 0.,"""//[***]\n""",0
+TC-014,Only Delimiter with Newline,A string with a delimiter followed by a newline and no numbers should return 0.,"""//[***]\n""",0
